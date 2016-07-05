@@ -1,7 +1,7 @@
 {
   "name": "browser-plus-zoom",
   "main": "./lib/browser-plus-zoom",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "zoom-in/zoom-out for Browser Plus",
   "keywords": [
     "browser-plus",
@@ -13,6 +13,5 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
