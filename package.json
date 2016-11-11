@@ -1,7 +1,7 @@
 {
   "name": "browser-plus-zoom",
   "main": "./lib/browser-plus-zoom",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "zoom-in/zoom-out for Browser Plus",
   "keywords": [
     "browser-plus",
