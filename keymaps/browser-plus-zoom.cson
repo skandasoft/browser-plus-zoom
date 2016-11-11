@@ -7,11 +7,12 @@
 
 # For more detailed documentation see
 # https://atom.io/docs/latest/behind-atom-keymaps-in-depth
-'atom-workspace':
-  'ctrl-alt-o': 'browser-plus-zoom:toggle'
+# 'atom-workspace':
+#   'ctrl-alt-o': 'browser-plus-zoom:toggle'
 
-'.browser-plus':
-  'ctrl-+': 'browser-plus-view:zoomIn'
-  'ctrl--': 'browser-plus-view:zoomOut'
-  'cmd-+': 'browser-plus-view:zoomIn'
-  'cmd--': 'browser-plus-view:zoomOut'
+'.browser-plus webview':
+  # 'cmd-=': 'browser-plus-view:zoomIn'
+  # 'cmd--': 'browser-plus-view:zoomOut'
+  'ctrl--': 'native!'
+  'ctrl-=': 'native!'
+  'f6': 'native!'

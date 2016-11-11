@@ -13,5 +13,12 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
+  "consumedServices": {
+    "browser-plus": {
+      "versions": {
+        ">=0.0.0": "consumeAddPlugin"
+      }
+    }
+  },
   "dependencies": {}
 }

@@ -5,29 +5,48 @@ module.exports = BrowserPlusZoom =
 
   activate: (state) ->
 
-    # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
-    atom.workspace.observePaneItems (editor) ->
-      fn = ->
-        return unless editor.view
-        editor.view.subscriptions?.add atom.commands.add '.browser-plus', 'browser-plus-view:zoomIn': -> editor.view.zoom(10)
-        editor.view.subscriptions?.add atom.commands.add '.browser-plus', 'browser-plus-view:zoomOut': -> editor.view.zoom(-10)
-        editor.view.zoomFactor = 100
-        editor.view.zoom = (factor)->
-            if 20 <= @zoomFactor+factor <= 500
-              @zoomFactor += factor
-            # remove from ui
-            atom.notifications.getNotifications()[0]?.dismiss()
-            # remove from NotficationManager.notifications
-            atom.notifications.clear()
-            atom.notifications.addInfo("zoom: #{@zoomFactor}%", {dismissable:true})
-            @htmlv[0].executeJavaScript("jQuery('body').css('zoom', '#{@zoomFactor}%')")
-        # editor.view
-      if editor.constructor.name is 'HTMLEditor'
-         return if editor.uri is 'browser-plus://blank'
-         setTimeout(fn,1000)
 
-    # @subscriptions.add atom.commands.add 'atom-workspace', 'browser-plus-zoom:toggle': => @toggle()
+  consumeAddPlugin: (@bp)->
+    requires =
+      onInit: ->
+        jQuery.jStorage.set('zoomfactor','100')
+      # js: ["resources/init.js"]
+      # css:["resources/browser-plus-zoom.css"]
+      menus:[
+        {
+          ctrlkey: 'ctrl+='
+          fn: (evt,data)->
+            return if location.href is 'browser-plus://blank'
+            zoomFactor = 5 + Number( jQuery.jStorage.get('zoomfactor') or 100 )
+            if zoomFactor > 300
+              zoomFactor = 300
+              alert('max zoom-out reached')
+            jQuery('body').css('zoom', "#{zoomFactor}%")
+            jQuery.jStorage.set('zoomfactor',zoomFactor)
+            jQuery.notifyBar
+                html: "zoom: #{zoomFactor}%"
+                delay: 2000
+                animationSpeed: "normal"
+        }
+        {
+          ctrlkey: 'ctrl+-'
+          fn: (evt,data)->
+            return if location.href is 'browser-plus://blank'
+            zoomFactor = Number( jQuery.jStorage.get('zoomfactor') or 100 ) - 5
+            if zoomFactor < 30
+              zoomFactor = 30
+              alert('max zoom-out reached')
+            jQuery('body').css('zoom', "#{zoomFactor}%")
+            jQuery.jStorage.set('zoomfactor',zoomFactor)
+            jQuery.notifyBar
+                html: "zoom: #{zoomFactor}%"
+                delay: 2000
+                animationSpeed: "normal"
+
+        }
+      ]
+    @bp.addPlugin requires,@
 
   deactivate: ->
     @subscriptions.dispose()
